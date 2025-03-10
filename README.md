@@ -70,18 +70,24 @@ Unseal Key 5: <unseal_key_5>
 
 Initial Root Token: <Root key>
 ```
-8. Run below commands to unseal vault .
+8. Add the `Root key` in `.env` and rebuild the containers using below commands.
+```bash
+docker-compose down
+docker-compose up -d --build
+```
+><b>Note :</b> Doing this will add `Root key` as environment variable of your docker container . Same will be utilized for authentication later.
+9. Run below commands to unseal vault .
 ```bash
 docker exec -it vault vault operator unseal <unseal_key_1>
 docker exec -it vault vault operator unseal <unseal_key_2>
 docker exec -it vault vault operator unseal <unseal_key_3>
 ```
-9. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
-10. Create a new secret engine name `secret` .
+10. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
+11. Create a new secret engine name `secret` .
 ![alt text](vault_secret_creation.gif)
-11. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
+12. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
 ![alt text](<Recording 2025-03-10 231451.gif>)
-12. Store below mentioned creds in associated secrets.
+13. Store below mentioned creds in associated secrets.
 `SNOW` :
 ```json
 {
