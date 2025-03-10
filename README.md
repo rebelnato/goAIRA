@@ -4,6 +4,7 @@
 </div>
 
 ## Pre-requisits :
+<details>
 
 | Application | Resource |
 |-------------|----------|
@@ -14,7 +15,11 @@
 
 > <b>Note</b> : You can use any API testing tool instead of postman as long as you are sending required headers and body content as part of API call
 
-## Initial setup :
+</details>
+
+## Setup :
+
+<details>
 
 1. Clone [goAIRA](https://github.com/rebelnato/goAIRA) git repository to local .
 ```bash
@@ -96,3 +101,5 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 ```
 
 ![alt text](giphy.gif)
+
+</details>
