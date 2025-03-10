@@ -7,11 +7,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rebelnato/goAIRA/authorizations"
-	"github.com/rebelnato/goAIRA/endpoints"
 	"github.com/rebelnato/goAIRA/isolatedfunctions"
 )
-
-var snowURL string = endpoints.ConfigData.Endpoints["servicenow"]["base"].(string)
 
 type Createincident struct {
 	ConsumerId string `header:"ConsumerId" binding:"required"`
@@ -78,7 +75,7 @@ func CreateSNOWIncident(c *gin.Context) {
 		return
 	}
 
-	snowAuthToken, err := authorizations.GetSNOWAuthToken()
+	snowURL, snowAuthToken, err := authorizations.GetSNOWAuthToken()
 	if err != nil {
 		log.Println("Failed to fetch SNOW auth token")
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -153,7 +150,7 @@ func GetSNOWIncident(c *gin.Context) {
 		return
 	}
 
-	snowAuthToken, err := authorizations.GetSNOWAuthToken()
+	snowURL, snowAuthToken, err := authorizations.GetSNOWAuthToken()
 	if err != nil {
 		log.Println("Failed to fetch SNOW auth token")
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -207,7 +204,7 @@ func UpdateSNOWIncident(c *gin.Context) {
 		}
 	}
 
-	snowAuthToken, err := authorizations.GetSNOWAuthToken()
+	snowURL, snowAuthToken, err := authorizations.GetSNOWAuthToken()
 	if err != nil {
 		log.Println("Failed to fetch SNOW auth token")
 		c.JSON(http.StatusBadGateway, gin.H{

@@ -29,3 +29,6 @@ todo
 
 # air modules used for hot-reload
 .air.toml
+
+# contains config for the application
+config.yml

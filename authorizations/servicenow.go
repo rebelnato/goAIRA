@@ -14,8 +14,6 @@ import (
 	"github.com/rebelnato/goAIRA/vault"
 )
 
-var snowAuthEndpoint string = endpoints.ConfigData.Endpoints["servicenow"]["base"].(string) + "oauth_token.do"
-
 type SNOWResponse struct {
 	AccessToken  string `json:"access_token"`
 	Scope        string `json:"scope"`
@@ -55,8 +53,10 @@ func GetSNOWRefreshToken() (string, bool) {
 	return refreshToken.RefreshToken, validRefreshToken
 }
 
-func GetSNOWAuthToken() (SNOWResponse, error) {
+func GetSNOWAuthToken() (string, SNOWResponse, error) {
 
+	var snowURL string = endpoints.ConfigData.Endpoints["servicenow"]["base"].(string)
+	var snowAuthEndpoint string = endpoints.ConfigData.Endpoints["servicenow"]["base"].(string) + "oauth_token.do"
 	var snowResponse SNOWResponse
 	refreshToken, validRefreshToken := GetSNOWRefreshToken()
 
@@ -74,7 +74,7 @@ func GetSNOWAuthToken() (SNOWResponse, error) {
 		resp, err := isolatedfunctions.POSTforFormPayload(snowAuthEndpoint, payload) // Calls API with formdata and return http.Response and error
 		if err != nil {
 			log.Printf("POST call to dev instance failed due to %q", err)
-			return snowResponse, err
+			return snowURL, snowResponse, err
 		}
 		defer resp.Body.Close()
 
@@ -83,12 +83,12 @@ func GetSNOWAuthToken() (SNOWResponse, error) {
 
 		if err := json.Unmarshal(body, &snowResponse); err != nil {
 			log.Printf("Error decoding JSON: %q", err)
-			return snowResponse, err
+			return snowURL, snowResponse, err
 		} // Decodes string to json format
 
 		vault.WriteSNOWRefreshToken(snowResponse.RefreshToken)
 
-		return snowResponse, err
+		return snowURL, snowResponse, err
 	}
 
 	payload := url.Values{}
@@ -100,7 +100,7 @@ func GetSNOWAuthToken() (SNOWResponse, error) {
 	resp, err := isolatedfunctions.POSTforFormPayload(snowAuthEndpoint, payload) // Calls API with formdata and return http.Response and error
 	if err != nil {
 		log.Printf("POST call to dev instance failed due to %q", err)
-		return snowResponse, err
+		return snowURL, snowResponse, err
 	}
 	defer resp.Body.Close()
 
@@ -109,8 +109,8 @@ func GetSNOWAuthToken() (SNOWResponse, error) {
 
 	if err := json.Unmarshal(body, &snowResponse); err != nil {
 		log.Printf("Error decoding JSON: %q", err)
-		return snowResponse, err
+		return snowURL, snowResponse, err
 	} // Decodes string to json format
 
-	return snowResponse, err
+	return snowURL, snowResponse, err
 }

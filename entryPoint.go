@@ -23,7 +23,7 @@ func main() {
 		log.Println("Vault is unreachable")
 	}
 	endpoints.ReadConfig() // Extracting config details from config.yml
-	// router.Run(":8080") // listen and serve on "localhost:8080"
+	router.Run(":8080")    // listen and serve on "localhost:8080"
 }
 
 // Custom panic recovery middleware
