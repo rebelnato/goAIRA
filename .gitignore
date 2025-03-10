@@ -23,3 +23,9 @@ go.work.sum
 
 # env file
 .env
+
+# todo list used while development
+todo
+
+# air modules used for hot-reload
+.air.toml
