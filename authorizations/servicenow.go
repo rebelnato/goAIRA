@@ -3,7 +3,7 @@ package authorizations
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"net/url"
 	"strconv"
@@ -78,7 +78,7 @@ func GetSNOWAuthToken() (string, SNOWResponse, error) {
 		}
 		defer resp.Body.Close()
 
-		body, _ := ioutil.ReadAll(resp.Body) // Reads the body from http.Response and converts it into []byte
+		body, _ := io.ReadAll(resp.Body) // Reads the body from http.Response and converts it into []byte
 		// Parse JSON response
 
 		if err := json.Unmarshal(body, &snowResponse); err != nil {
@@ -104,7 +104,7 @@ func GetSNOWAuthToken() (string, SNOWResponse, error) {
 	}
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body) // Reads the body from http.Response and converts it into []byte
+	body, _ := io.ReadAll(resp.Body) // Reads the body from http.Response and converts it into []byte
 	// Parse JSON response
 
 	if err := json.Unmarshal(body, &snowResponse); err != nil {

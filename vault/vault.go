@@ -8,6 +8,7 @@ import (
 
 	"github.com/hashicorp/vault-client-go"
 	"github.com/hashicorp/vault-client-go/schema"
+	"github.com/rebelnato/goAIRA/endpoints"
 )
 
 var vaultToken []byte = []byte(os.Getenv("Vault_pass")) // Fetching the token stored as env variable at os level
@@ -18,8 +19,7 @@ func initiateVaultAuth() (context.Context, *vault.Client) {
 
 	// prepare a client with the given base address
 	client, err := vault.New(
-		// vault.WithAddress("http://127.0.0.1:8200"),
-		vault.WithAddress("http://host.docker.internal:8200"),
+		vault.WithAddress("http://"+endpoints.VaultUrl),
 		vault.WithRequestTimeout(30*time.Second),
 	)
 	if err != nil {

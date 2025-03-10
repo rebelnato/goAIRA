@@ -12,12 +12,13 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/rebelnato/goAIRA/endpoints"
 )
 
 func VaultStatusCheck() bool {
-	// address := "127.0.0.1:8200"
-	address := "host.docker.internal:8200" // Only should be uncommented when building for docker
-	timeout := 2 * time.Second             // Timeout after 2 seconds
+
+	address := endpoints.VaultUrl
+	timeout := 2 * time.Second // Timeout after 2 seconds
 
 	conn, err := net.DialTimeout("tcp", address, timeout)
 	if err != nil {

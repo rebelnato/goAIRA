@@ -16,14 +16,22 @@ func main() {
 	// This middleware recovers from panics and logs the error
 	router.Use(CustomRecovery())
 	serverRouter(router)                                // Calls the serverRouter function so that all available routes can be served
+	endpoints.ReadConfig()                              // Extracting config details from config.yml
 	vaultStatus := isolatedfunctions.VaultStatusCheck() // To make sure vault is reachable for fetching required secrets
+
 	if vaultStatus {
 		log.Println("Vault is reachable")
 	} else {
 		log.Println("Vault is unreachable")
 	}
-	endpoints.ReadConfig() // Extracting config details from config.yml
-	router.Run(":8080")    // listen and serve on "localhost:8080"
+
+	var serverOn string
+	if endpoints.OperatingSystem == "windows" {
+		serverOn = "localhost:8080"
+	} else {
+		serverOn = ":8080"
+	}
+	router.Run(serverOn) // listen and serve on "localhost:8080"
 }
 
 // Custom panic recovery middleware
