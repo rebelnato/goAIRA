@@ -75,6 +75,10 @@ func CreateSNOWIncident(c *gin.Context) {
 		return
 	}
 
+	if test := isolatedfunctions.ConsumerIDValidator(c, req.ConsumerId); test != true {
+		return
+	}
+
 	snowURL, snowAuthToken, err := authorizations.GetSNOWAuthToken()
 	if err != nil {
 		log.Println("Failed to fetch SNOW auth token")
@@ -150,6 +154,10 @@ func GetSNOWIncident(c *gin.Context) {
 		return
 	}
 
+	if test := isolatedfunctions.ConsumerIDValidator(c, req.ConsumerId); test != true {
+		return
+	}
+
 	snowURL, snowAuthToken, err := authorizations.GetSNOWAuthToken()
 	if err != nil {
 		log.Println("Failed to fetch SNOW auth token")
@@ -193,6 +201,10 @@ func UpdateSNOWIncident(c *gin.Context) {
 	validateRequest := c.ShouldBindHeader(&req)
 	if validateRequest != nil {
 		c.String(http.StatusBadRequest, "Please provide all necessary headers ConsumerId, IncidentNum.")
+		return
+	}
+
+	if test := isolatedfunctions.ConsumerIDValidator(c, req.ConsumerId); test != true {
 		return
 	}
 
