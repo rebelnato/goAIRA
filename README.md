@@ -1,5 +1,5 @@
 <div align="center">
-<h1>goAIRA (Automated Issue Reporting Assistnat)</h1>
+<h1>goAIRA (Automated Issue Reporting Assistant)</h1>
  A lightweight Go backend application that automates issue reporting using exposed REST APIs. It is an ideal tool for mid-sized to large organizations where sharing API tokens or other credentials poses a security risk.
 </div>
 
@@ -131,7 +131,6 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 
 2. `/createincident` :
 
-<details>
 ```json
 {
     "data": {
@@ -141,11 +140,9 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     "status": "success"
 }
 ```
-</details>
 
 3. `/getincident` :
 
-<details>
 ```json
 {
     "result": [
@@ -255,11 +252,9 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     ]
 }
 ```
-</details>
 
 4. `/updateincident` :
 
-<details>
 ```json
 {
     "result": {
@@ -370,4 +365,3 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     }
 }
 ```
-</details>
