@@ -82,7 +82,9 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 10. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
 11. Create a new secret engine name `secret` .
 ![alt text](resources/vault_secret_creation.gif)
+![alt text](resources/vault_secret_creation.gif)
 12. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
+![alt text](<resources/Recording 2025-03-10 231451.gif>)
 ![alt text](<resources/Recording 2025-03-10 231451.gif>)
 13. Store below mentioned creds in associated secrets.
 `SNOW` :
@@ -103,6 +105,7 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 }
 ```
 
+![alt text](resources/giphy.gif)
 ![alt text](resources/giphy.gif)
 
 </details>
@@ -131,6 +134,7 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 
 2. `/createincident` :
 
+<details>
 ```json
 {
     "data": {
@@ -140,9 +144,11 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     "status": "success"
 }
 ```
+</details>
 
 3. `/getincident` :
 
+<details>
 ```json
 {
     "result": [
@@ -252,9 +258,11 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     ]
 }
 ```
+</details>
 
 4. `/updateincident` :
 
+<details>
 ```json
 {
     "result": {
@@ -365,3 +373,4 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     }
 }
 ```
+</details>
