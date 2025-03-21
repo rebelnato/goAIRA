@@ -8,6 +8,7 @@ import (
 	"net"
 	"net/http"
 	"net/url"
+	"slices"
 	"strings"
 	"time"
 
@@ -74,4 +75,17 @@ func POSTjsonPayload(c *gin.Context, authToken, requestType, url string, payload
 
 	body, _ := io.ReadAll(resp.Body) // Reads the body from http.Response and converts it into []byte
 	return body, err
+}
+
+func ConsumerIDValidator(c *gin.Context, consumerID string) bool {
+	availableConsumers := endpoints.ConfigData.Consumers
+	found := slices.Contains(availableConsumers, consumerID)
+
+	if !found {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"status": "failed",
+			"reason": "Provided consumer is invalid ,please provide a valid consumer id",
+		})
+	}
+	return found
 }

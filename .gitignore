@@ -32,3 +32,4 @@ todo
 
 # contains config for the application
 config.yml
+tmp/build-errors.log

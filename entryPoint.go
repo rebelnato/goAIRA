@@ -25,13 +25,13 @@ func main() {
 		log.Println("Vault is unreachable")
 	}
 
-	var serverOn string
+	var serveOn string
 	if endpoints.OperatingSystem == "windows" {
-		serverOn = "localhost:8080"
+		serveOn = "localhost:8080"
 	} else {
-		serverOn = ":8080"
+		serveOn = ":8080"
 	}
-	router.Run(serverOn) // listen and serve on "localhost:8080"
+	router.Run(serveOn) // listen and serve on "localhost:8080"
 }
 
 // Custom panic recovery middleware
