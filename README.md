@@ -131,6 +131,7 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 
 2. `/createincident` :
 
+<details>
 ```json
 {
     "data": {
@@ -140,9 +141,11 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     "status": "success"
 }
 ```
+</details>
 
 3. `/getincident` :
 
+<details>
 ```json
 {
     "result": [
@@ -252,9 +255,11 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     ]
 }
 ```
+</details>
 
 4. `/updateincident` :
 
+<details>
 ```json
 {
     "result": {
@@ -365,3 +370,4 @@ docker exec -it vault vault operator unseal <unseal_key_3>
     }
 }
 ```
+</details>
