@@ -25,8 +25,14 @@ git clone https://github.com/rebelnato/goAIRA.git
 2. Create `.env` file in parent directory .
 > i.e : If you are cloning repository inside `path/goAIRA` then location of `.env` file should be `path/goAIRA/.env`
 3. Add `Vault_pass` attribute inside `.env` file . We'll update the vault token in here so that same can be added as environment variable in docker container.
+The keys will generate in step 7.
 ```bash
 Vault_pass=<vault access token>
+Vault_unsealKey1=<vault unseal key 1>
+Vault_unsealKey2=<vault unseal key 2>
+Vault_unsealKey3=<vault unseal key 3>
+Vault_unsealKey4=<vault unseal key 4>
+Vault_unsealKey5=<vault unseal key 5>
 ```
 4. Create `config.yml` file in parent directory , same as `.env` file . Add servicenow endpoints and consumer ids in the yaml file.
 ```yaml
@@ -55,7 +61,7 @@ docker exec -it vault sh -c "chown -R 100:100 /vault && chmod -R 750 /vault"
 ```
 7. Run below command to initiate vault , which will return 5 unseal key and 1 token key . Store the keys safe as we will need the in next steps to unseal vault and login.
 ```bash
-docker exec -it vault sh -c "chown -R 100:100 /vault && chmod -R 750 /vault"
+docker exec -it vault vault operator init
 
 Sample output:
 
@@ -67,17 +73,15 @@ Unseal Key 5: <unseal_key_5>
 
 Initial Root Token: <Root key>
 ```
-8. Add the `Root key` in `.env` and rebuild the containers using below commands.
+8. Add the `Root key` and `Unseal keys` in `.env` and rebuild the containers using below commands.
 ```bash
 docker-compose down
 docker-compose up -d --build
 ```
 ><b>Note :</b> Doing this will add `Root key` as environment variable of your docker container . Same will be utilized for authentication later.
-9. Run below commands to unseal vault .
+9. Once you have added `Root` and `Unseal` keys in .env file and rebuilt the container , run provided command to unseal vault.
 ```bash
-docker exec -it vault vault operator unseal <unseal_key_1>
-docker exec -it vault vault operator unseal <unseal_key_2>
-docker exec -it vault vault operator unseal <unseal_key_3>
+.\/vault/vaultUnseal.sh
 ```
 10. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
 11. Create a new secret engine name `secret` .
