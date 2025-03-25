@@ -71,7 +71,7 @@ func CreateSNOWIncident(c *gin.Context) {
 	// Bind JSON and validate required fields
 	validateRequest := c.ShouldBindHeader(&req)
 	if validateRequest != nil {
-		c.String(http.StatusBadRequest, "Please provide all necessary headers ConsumerId, ShortDesc, Desc,Caller, Channel, Impact, Urgency.")
+		c.JSON(http.StatusBadRequest, gin.H{"response": "Please provide all necessary headers ConsumerId, ShortDesc, Desc,Caller, Channel, Impact, Urgency."})
 		return
 	}
 
@@ -150,7 +150,7 @@ func GetSNOWIncident(c *gin.Context) {
 	// Bind JSON and validate required fields
 	validateRequest := c.ShouldBindHeader(&req)
 	if validateRequest != nil {
-		c.String(http.StatusBadRequest, "Please provide all necessary headers ConsumerId, IncidentNum.")
+		c.JSON(http.StatusBadRequest, gin.H{"response": "Please provide all necessary headers consumerid , incidentNum."})
 		return
 	}
 
@@ -200,7 +200,7 @@ func UpdateSNOWIncident(c *gin.Context) {
 	// Bind JSON and validate required fields
 	validateRequest := c.ShouldBindHeader(&req)
 	if validateRequest != nil {
-		c.String(http.StatusBadRequest, "Please provide all necessary headers ConsumerId, IncidentNum.")
+		c.JSON(http.StatusBadRequest, gin.H{"response": "Please provide all necessary headers ConsumerId, IncidentNum."})
 		return
 	}
 
@@ -211,7 +211,7 @@ func UpdateSNOWIncident(c *gin.Context) {
 	if req.Status == "6" {
 		validateResolution := c.ShouldBindHeader(&resolution)
 		if validateResolution != nil {
-			c.String(http.StatusBadRequest, "Please provide all necessary headers for moving incident to resolved status CloseNotes, CloseCode.")
+			c.JSON(http.StatusBadRequest, gin.H{"response": "Please provide all necessary headers for moving incident to resolved status CloseNotes, CloseCode."})
 			return
 		}
 	}

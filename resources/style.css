@@ -1,0 +1,219 @@
+html::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in Chrome, Safari, and Edge */
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #2a2d30;
+}
+
+.landing{
+  height: 50vw;
+  text-align: center;
+  color: #cddae9;
+}
+
+h1 {
+  width: 100%;
+  padding: 10vw 0 0 0;
+  margin: 0;
+  font-family: "Sofia", sans-serif;
+  display: block;
+  font-size: 11vw; /* Makes the font size responsive, i.e: 11% of view point */
+}
+
+.view {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+  flex-wrap: wrap;
+}
+
+.block {
+  height: 90%;
+  width: 80%;
+  margin: 5%;
+  display:flex;
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(+50%);
+  }
+}
+
+.block {
+  animation: appear 1 ease-out forwards;
+  animation-timeline: view();
+  animation-range: end 0% start 10%;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  width: 6vw;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #eef0f3;
+}
+
+td {
+  padding: 1.5vh;
+}
+
+input, select, textarea  {
+  width: 90%;
+  padding: 4px;
+  border: 1px solid #bcadad;
+  background: #878f97;
+  border-radius: 4px;
+}
+
+.required {
+  color: rgb(138, 27, 27);
+  font-size: large;
+}
+
+.vertical-nav ul {
+    list-style: none;
+    padding: 1vw;
+    background-color: #484c50;
+    border-radius: 10px;
+}
+
+.vertical-nav ul li {
+    margin-bottom: 1vw;
+}
+
+.vertical-nav ul li:focus-within {
+    color: white; /* Change text color */
+}
+
+.vertical-nav ul li a {
+    text-decoration: none;
+    font-size: 2vw;
+    color: #cddae9;
+    display: block;
+    margin: 2vw 0vw 1vw 0vw;
+    padding: 1vw;
+    transition: background 0.6s;
+    justify-content: center;
+    align-items: center;
+}
+
+.vertical-nav ul li a img {
+    transition: filter 0.3s ease-in-out;
+}
+
+.vertical-nav ul li a.selected img {
+    filter: invert(80%);
+}
+
+.icon-img:active,
+.icon-img:hover {
+  filter: invert(80%);
+}
+
+#defaultMsg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #cddae9;
+    font-family: "Sofia", sans-serif;
+    font-size: 2vw; /* Makes the font size responsive, i.e: 11% of view point */
+}
+
+.message {
+    margin: 3vw 5vw 5vw 5vw;
+    padding: 1%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    height: 70vh;
+    width: 100vw;
+    background: #484c50;
+    border-radius: 10px;
+}
+
+.output {
+    display: none;
+    color: #cddae9;
+    padding-left: 1vw;
+    margin-top: 2vh;
+    width: 60vw;
+    height: 65vh;
+    background: black;
+    border-radius: 10px;
+}
+
+.response-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+pre {
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: auto;
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+} /* Helpw with pre formatting the response from api call before outputting to .output class element */
+
+.back-button {
+    display: block;
+    margin: 20px auto 0; /* Centers horizontally */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateY(-15vh); /* Ensures it stays in center */
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+.submit1 {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+}
+
+.submit1 button{
+  background-color: rgb(13, 75, 13);
+  color: #cddae9;
+  margin-top: 1vh;
+  width: 8vw;
+  height: 4vw;
+  border-radius: 10px;
+  font-size: medium;
+  font-weight: 500;
+}
+
+  

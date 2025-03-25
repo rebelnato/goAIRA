@@ -22,5 +22,8 @@ COPY --from=builder /build/goaira /goaira
 # Copy the config file correctly
 COPY --from=builder /build/config.yml /config.yml
 
+# Copy everything inside resouces folder to docker
+COPY --from=builder /build/resources/ /resources/
+
 # Set the binary to run
 CMD ["/goaira"]
