@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg" href="/resources/gopher.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="/resources/style.css">
+    <script src="/resources/script.js" > </script>
+    <title>Animate on scroll</title>
+
+    </head>
+    <body>
+      <div class="landing">
+          <h1>Hey there!</h1>
+          <h2>Scroll for test box when you are ready ✌🏼</h2>
+      </div>
+      
+      <div class="view">
+        <div class="block">
+          <div class="options">
+              <nav class="vertical-nav">
+                  <ul>
+                      <li><a href="#" onclick="showMessage('health', event)"><img class="icon-img" src="/resources/heart.svg" width="24" height="24" alt="Home"></a></li>
+                      <li><a href="#" onclick="showMessage('create', event)"><img class="icon-img" src="/resources/plus-circle.svg" width="24" height="24" alt="Home"></a></li>
+                      <li><a href="#" onclick="showMessage('get', event)"><img class="icon-img" src="/resources/download-cloud.svg" width="24" height="24" alt="Home"></a></li>
+                      <li><a href="#" onclick="showMessage('update', event)"><img class="icon-img" src="/resources/edit-3.svg" width="24" height="24" alt="Home"></a></li>
+                  </ul>
+              </nav>
+          </div>
+          <div id="defaultMsg" class="message">
+            <h2>
+                Please select one of the option in left nav bar to proceed .
+            </h2>
+          </div>
+          <div id="health" class="message">
+            <form novalidate>
+              <div id="defaultMsg">
+                <h2>
+                    Health check doesn't require any headers.Just click on Execute.
+                </h2>
+              </div>
+              <div class="submit1">
+                <button type="submit">Execute</button>
+              </div>
+            </form>
+            <div class="output"></div>
+          </div>
+          <div id="create" class="message">
+            <form novalidate>
+              <table>
+                <tr>
+                    <td><label for="consumerId">Consumer ID <span class="required">*</span> :</label></td>
+                    <td><input type="text" class="header-input" id="consumerId" name="ConsumerId" required></td>
+                </tr>
+                <tr>
+                    <td><label for="shortDesc">Short Description <span class="required">*</span> :</label></td>
+                    <td><input type="text" class="header-input" id="shortDesc" name="ShortDesc" required></td>
+                </tr>
+                <tr>
+                    <td><label for="desc">Description <span class="required">*</span> :</label></td>
+                    <td><textarea id="desc" class="header-input" name="Desc" rows="4" required></textarea></td>
+                </tr>
+                <tr>
+                    <td><label for="caller">Caller <span class="required">*</span> :</label></td>
+                    <td><input type="text" class="header-input" id="caller" name="Caller" required></td>
+                </tr>
+                <tr>
+                    <td><label for="channel">Channel <span class="required">*</span> :</label></td>
+                    <td>
+                        <select class="header-input" id="channel" name="Channel" required>
+                          <option value="Self-service">Self-service</option>
+                          <option value="email">Email</option>
+                          <option value="phone">Phone</option>
+                          <option value="chat">Chat</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="impact">Impact <span class="required">*</span> :</label></td>
+                    <td>
+                        <select class="header-input" id="impact" name="Impact" required>
+                            <option value="">Select Impact</option>
+                            <option value="3">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="1">High</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="urgency">Urgency <span class="required">*</span> :</label></td>
+                    <td>
+                        <select class="header-input" id="urgency" name="Urgency" required>
+                            <option value="">Select Urgency</option>
+                            <option value="3">Low</option>
+                            <option value="2">Medium</option>
+                            <option value="1">High</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                      <div class="submit1">
+                        <button type="submit">Execute</button>
+                      </div>
+                    </td>
+                </tr>
+            </table>
+            </form>
+            <div class="output"></div>
+          </div>          
+        <div id="get" class="message">
+          <form>
+            <table>
+              <tr>
+                  <td><label for="consumerId">Consumer ID <span class="required">*</span> :</label></td>
+                  <td><input type="text" class="header-input" id="consumerId" name="ConsumerId" required></td>
+              </tr>
+              <tr>
+                  <td><label for="incident">Incident <span class="required">*</span> :</label></td>
+                  <td><input type="text" class="header-input" id="incident" name="IncidentNum" required></td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                    <div class="submit1">
+                      <button type="submit">Execute</button>
+                    </div>
+                  </td>
+              </tr>
+          </table>
+          </form>
+          <div class="output"></div>
+        </div>
+        <div id="update" class="message">
+          <form>
+            <table>
+              <tr>
+                  <td><label for="consumerId">Consumer ID <span class="required">*</span> :</label></td>
+                  <td><input type="text" class="header-input" id="consumerId" name="ConsumerId" required></td>
+              </tr>
+              <tr>
+                  <td><label for="incident">Incident <span class="required">*</span> :</label></td>
+                  <td><input type="text" class="header-input" id="incident" name="IncidentNum" required></td>
+              </tr>
+              <tr>
+                <td><label for="shortDesc">Short Description :</label></td>
+                <td><input type="text" class="header-input" id="shortDesc" name="ShortDescription"></td>
+              </tr>
+              <tr>
+                  <td><label for="desc">Description :</label></td>
+                  <td><textarea id="desc" class="header-input" name="Description" rows="1"></textarea></td>
+              </tr>
+              <tr>
+                <td><label for="comment">Comment :</label></td>
+                <td><input type="text" class="header-input" id="comment" name="Comment"></td>
+              </tr>
+              <tr>
+                  <td><label for="worknote">WorkNote :</label></td>
+                  <td><textarea id="worknote" class="header-input" name="WorkNote" rows="1"></textarea></td>
+              </tr>
+              <tr>
+                  <td colspan="2">
+                    <div class="submit1">
+                      <button type="submit">Execute</button>
+                    </div>
+                  </td>
+              </tr>
+          </table>
+          </form>
+          <div class="output"></div>
+        </div>
+      </div>
+    </body>
+  </html>

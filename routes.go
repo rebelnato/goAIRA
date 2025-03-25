@@ -11,6 +11,27 @@ import (
 
 func serverRouter(router *gin.Engine) {
 
+	router.LoadHTMLGlob("resources/*.html") // Load all the html artifacts stored in homepage folder
+	router.Static("/resources", "./resources")
+
+	router.Use(func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")                                           // Allow all origins
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS")                  // Allowed methods
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization, Custom-Header") // Allowed headers
+
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(http.StatusNoContent)
+			return
+		}
+		c.Next()
+	})
+
+	router.GET("", func(c *gin.Context) {
+		c.HTML(200, "index.html", gin.H{
+			"title": "goAIRA homepage",
+		})
+	}) // Populates homepage when assigned URL is hit . Default URL http://localhost:8080/
+
 	router.GET("/health", healthCheck) // Health check route returns status of db , vault and server
 
 	/*
