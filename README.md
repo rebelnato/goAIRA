@@ -17,7 +17,7 @@
 ## Setup :
 
 <details>
-    <summary><text style="font-size: 16px;background-color: #44475a;">Setup using docker-compose file ( Quick setup )</text></summary>
+    <summary><text style="font-size: 16px;">Setup using docker-compose file ( Quick setup )</text></summary>
 
 1. Create a file named "docker-compose.yml" and copy celow code in it .
 
@@ -70,7 +70,7 @@ volumes:
 ```
 2. Create `.env` file in parent directory .
 > i.e : If you are cloning repository inside `path/goAIRA` then location of `.env` file should be `path/goAIRA/.env` .
-3. Move inside the parent directory ex : ``path/goAIRA` using terminal and run `docker-compose up -d --build` .
+3. Move inside the parent directory ex : `path/goAIRA` using terminal and run `docker-compose up -d --build` .
 4. Wait for the task to complete . Once completed use any API test tool to validate on exposed APIs or goto `http://localhost:8080/` in any browser of your choice ( preferrably chrome or ARC ) .
 5. If the `/health` endpoints returns vault status as true then we are ready for vault initialization .
 6. Run below command to modify ownership and permission for `/vault` folder .
@@ -132,7 +132,7 @@ docker exec -it vault vault operator unseal <unseal_key_3>
 </details>
 
 <details>
-    <summary><text style="font-size: 16px;background-color: #44475a;">Setup using github clone ( for more of a personalised setup )</text></summary>
+    <summary><text style="font-size: 16px;">Setup using github clone ( for more of a personalised setup )</text></summary>
 
 1. Clone [goAIRA](https://github.com/rebelnato/goAIRA) git repository to local .
 ```bash
