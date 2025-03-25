@@ -17,6 +17,122 @@
 ## Setup :
 
 <details>
+    <summary><text style="font-size: 16px;background-color: #44475a;">Setup using docker-compose file ( Quick setup )</text></summary>
+
+1. Create a file named "docker-compose.yml" and copy celow code in it .
+
+```yaml
+services:
+  goAIRA:
+    image: rebelnato/goaira:latest
+    pull_policy: always
+    container_name: goaira
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+  vault:
+    image: hashicorp/vault:latest
+    pull_policy: always
+    container_name: vault
+    restart: always
+    ports:
+      - "8200:8200"  # Vault API port
+    cap_add:
+      - IPC_LOCK  # Prevent memory from being swapped to disk (security best practice)
+    environment:
+      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_API_ADDR: "http://localhost:8200"
+      VAULT_CLUSTER_ADDR: "http://localhost:8201"
+      VAULT_LOCAL_CONFIG: |
+        {
+          "listener": [{
+            "tcp": {
+              "address": "0.0.0.0:8200",
+              "tls_disable": 1
+            }
+          }],
+          "storage": {
+            "file": {
+              "path": "/vault/data"
+            }
+          },
+          "ui": true
+        }
+    volumes:
+      - vault_data:/vault/data  # Persistent storage
+    command: server  # Start Vault in server mode
+
+volumes:
+  vault_data:
+    driver: local
+```
+2. Create `.env` file in parent directory .
+> i.e : If you are cloning repository inside `path/goAIRA` then location of `.env` file should be `path/goAIRA/.env` .
+3. Move inside the parent directory ex : ``path/goAIRA` using terminal and run `docker-compose up -d --build` .
+4. Wait for the task to complete . Once completed use any API test tool to validate on exposed APIs or goto `http://localhost:8080/` in any browser of your choice ( preferrably chrome or ARC ) .
+5. If the `/health` endpoints returns vault status as true then we are ready for vault initialization .
+6. Run below command to modify ownership and permission for `/vault` folder .
+```bash
+docker exec -it vault sh -c "chown -R 100:100 /vault && chmod -R 750 /vault"
+```
+7. Run below command to initiate vault , which will return 5 unseal key and 1 token key . Store the keys safe as we will need the in next steps to unseal vault and login.
+```bash
+docker exec -it vault vault operator init
+
+Sample output:
+
+Unseal Key 1: <unseal_key_1>
+Unseal Key 2: <unseal_key_2>
+Unseal Key 3: <unseal_key_3>
+Unseal Key 4: <unseal_key_4>
+Unseal Key 5: <unseal_key_5>
+
+Initial Root Token: <Root key>
+```
+8. Add the `Root key` in `.env` and rebuild the containers using below commands.
+```bash
+docker-compose down
+docker-compose up -d --build
+```
+><b>Note :</b> Doing this will add `Root key` as environment variable of your docker container . Same will be utilized for authentication later.
+9. Once you have added `Root` key in .env file and rebuilt the container , run provided command to unseal vault.
+```bash
+docker exec -it vault vault operator unseal <unseal_key_1>
+docker exec -it vault vault operator unseal <unseal_key_2>
+docker exec -it vault vault operator unseal <unseal_key_3>
+```
+10. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
+11. Create a new secret engine name `secret` .
+![Create secret engine in vault](resources/vault_secret_creation.gif)
+12. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
+![Adding SNOW creds](<resources/Recording 2025-03-10 231451.gif>)
+13. Store below mentioned creds in associated secrets.
+`SNOW` :
+```json
+{
+  "client_id": "<ServiceNow client id>",
+  "client_secret": "<Client password>",
+  "password": "<ServiceNow users password>",
+  "username": "<ServiceNow user name>"
+}
+```
+
+`SNOW_refresh` :
+```json
+{
+  "refresh_epoch_time": 0,
+  "refresh_token": "<Keep it as "" , it will automatically be updated with appropriate vaule>"
+}
+```
+![Setup steps](resources/docker-compose-setup.gif)
+![Setup Completed](resources/giphy.gif)
+
+</details>
+
+<details>
+    <summary><text style="font-size: 16px;background-color: #44475a;">Setup using github clone ( for more of a personalised setup )</text></summary>
 
 1. Clone [goAIRA](https://github.com/rebelnato/goAIRA) git repository to local .
 ```bash
@@ -85,9 +201,9 @@ docker-compose up -d --build
 ```
 10. Goto `http://localhost:8200` and use root key capture while initiating vault to login.
 11. Create a new secret engine name `secret` .
-![alt text](resources/vault_secret_creation.gif)
+![Adding secrets engine in vault](resources/vault_secret_creation.gif)
 12. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
-![alt text](<resources/Recording 2025-03-10 231451.gif>)
+![Adding SNOW refresh token in vault](<resources/Recording 2025-03-10 231451.gif>)
 13. Store below mentioned creds in associated secrets.
 `SNOW` :
 ```json
@@ -107,7 +223,7 @@ docker-compose up -d --build
 }
 ```
 
-![alt text](resources/giphy.gif)
+![Setup complete](resources/giphy.gif)
 
 </details>
 
