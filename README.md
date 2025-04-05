@@ -24,22 +24,34 @@
 
 ```yaml
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin   # Default user , update as per requirement
+      POSTGRES_PASSWORD: admin  # Default pass , udate as per requirement
+      POSTGRES_DB: goaira
+    volumes:
+      - pgdata:/var/lib/postgresql/dat
+    ports:
+      - "5432:5432"
+
   goAIRA:
-    image: rebelnato/goaira:latest
-    pull_policy: always
-    container_name: goaira
+    image: goaira:latest
+    build: .
     restart: always
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Will be assigned 8090 as internal docker port and 8080 for localhost
+
   vault:
     image: hashicorp/vault:latest
     pull_policy: always
     container_name: vault
     restart: always
     ports:
-      - "8200:8200"  # Vault API port
+      - "8300:8200"  # Vault API port
     cap_add:
       - IPC_LOCK  # Prevent memory from being swapped to disk (security best practice)
     environment:
@@ -68,6 +80,7 @@ services:
 volumes:
   vault_data:
     driver: local
+  pgdata:
 ```
 2. Create `.env` file in parent directory .
 > i.e : If you are cloning repository inside `path/goAIRA` then location of `.env` file should be `path/goAIRA/.env` .
@@ -150,6 +163,10 @@ Vault_unsealKey2=<vault unseal key 2>
 Vault_unsealKey3=<vault unseal key 3>
 Vault_unsealKey4=<vault unseal key 4>
 Vault_unsealKey5=<vault unseal key 5>
+
+db_user=<db user_name>
+db_pass=<db pass>
+db_name=<db name>
 ```
 4. Create `config.yml` file in parent directory , same as `.env` file . Add servicenow endpoints and consumer ids in the yaml file.
 ```yaml
@@ -159,10 +176,11 @@ endpoints:
   vault:
     addr1: "localhost:8300"
     addr2: "vault:8200"
+  db_host:
+    host1: "localhost"
+    host2: "db"
 
-consumers:
-  - "Test1"
-  - "Test2"
+ enableDb: true # To enable or disable db function
 ```
 5. Use below command to build and run docker container utilizing config of `docker-compose.yml` file .
 ```bash
