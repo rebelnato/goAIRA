@@ -55,9 +55,11 @@ func serverRouter(router *gin.Engine) {
 
 func healthCheck(c *gin.Context) {
 	vaultStatus := isolatedfunctions.VaultStatusCheck()
+	dbPingStatus := isolatedfunctions.DbPing()
 	response := gin.H{
-		"vault":  vaultStatus,
-		"server": "pong",
+		"vault":    vaultStatus,
+		"dbStatus": dbPingStatus,
+		"server":   "pong",
 	}
 	c.JSON(http.StatusOK, response)
 }

@@ -5,12 +5,13 @@
 
 ## Pre-requisits :
 
-| Application | Resource |
-|-------------|----------|
-| Go | [Reference](https://go.dev/doc/install) |
-| docker | [Reference](https://docs.docker.com/engine/install/) |
-| Git | [Reference](https://git-scm.com/downloads) |
-| Postman | [Reference](https://www.postman.com/downloads/) |
+| Application | Resource | Usecase |
+|-------------|----------|---------|
+| Go | [Reference](https://go.dev/doc/install) | |
+| docker | [Reference](https://docs.docker.com/engine/install/) | Provides a local environment for containorized code |
+| Git | [Reference](https://git-scm.com/downloads) | For version control |
+| Postman | [Reference](https://www.postman.com/downloads/) | For API testing |
+| DBeaver | [Reference](https://dbeaver.io/download/) | For connecting to db |
 
 > <b>Note</b> : You can use any API testing tool instead of postman as long as you are sending required headers and body content as part of API call
 
@@ -244,6 +245,7 @@ docker-compose up -d --build
 
 ```json
 {
+    "dbStatus": true,
     "server": "pong",
     "vault": true
 }

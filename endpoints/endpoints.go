@@ -11,10 +11,11 @@ import (
 type Data struct {
 	Endpoints map[string]map[string]interface{} `yaml:"endpoints"`
 	Consumers []string                          `yaml:"consumers"`
+	DbToggle  bool                              `yaml:"enableDb"`
 }
 
 var OperatingSystem string
-var VaultUrl string
+var VaultUrl, DbHost string
 var ConfigData Data
 
 func ReadConfig() {
@@ -32,8 +33,13 @@ func ReadConfig() {
 	}
 
 	OperatingSystem = runtime.GOOS
+
 	if OperatingSystem == "windows" {
 		VaultUrl = ConfigData.Endpoints["vault"]["addr1"].(string)
+		DbHost = ConfigData.Endpoints["db_host"]["host1"].(string)
+	} else {
+		VaultUrl = ConfigData.Endpoints["vault"]["addr2"].(string)
+		DbHost = ConfigData.Endpoints["db_host"]["host2"].(string)
 	}
-	VaultUrl = ConfigData.Endpoints["vault"]["addr2"].(string)
+
 }

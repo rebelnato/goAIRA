@@ -1,4 +1,16 @@
 services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: goaira
+    volumes:
+      - pgdata:/var/lib/postgresql/dat
+    ports:
+      - "5432:5432"
+
   goAIRA:
     image: goaira:latest
     build: .
@@ -6,14 +18,15 @@ services:
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Will be assigned 8090 as internal docker port and 8080 for localhost
+
   vault:
     image: hashicorp/vault:latest
     pull_policy: always
     container_name: vault
     restart: always
     ports:
-      - "8200:8200"  # Vault API port
+      - "8300:8200"  # Vault API port
     cap_add:
       - IPC_LOCK  # Prevent memory from being swapped to disk (security best practice)
     environment:
@@ -42,5 +55,6 @@ services:
 volumes:
   vault_data:
     driver: local
+  pgdata:
     
 

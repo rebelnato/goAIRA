@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/rebelnato/goAIRA/endpoints"
@@ -15,10 +16,13 @@ func main() {
 	router := gin.Default()
 	// This middleware recovers from panics and logs the error
 	router.Use(CustomRecovery())
-	serverRouter(router)                                // Calls the serverRouter function so that all available routes can be served
-	endpoints.ReadConfig()                              // Extracting config details from config.yml
+	serverRouter(router)   // Calls the serverRouter function so that all available routes can be served
+	endpoints.ReadConfig() // Extracting config details from config.yml
+	if endpoints.ConfigData.DbToggle {
+		time.Sleep(20 * time.Second)             // Waits for couple of seconds to make sure db is available
+		isolatedfunctions.Initiatedbconnection() // Initiating db connection
+	}
 	vaultStatus := isolatedfunctions.VaultStatusCheck() // To make sure vault is reachable for fetching required secrets
-
 	if vaultStatus {
 		log.Println("Vault is reachable")
 	} else {
@@ -31,6 +35,7 @@ func main() {
 	} else {
 		serveOn = ":8080"
 	}
+
 	router.Run(serveOn) // listen and serve on "localhost:8080"
 }
 
