@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.23.2 AS builder
+FROM golang:latest AS builder
 
 WORKDIR /build
 COPY . . 

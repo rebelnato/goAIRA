@@ -13,8 +13,13 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"github.com/rebelnato/goAIRA/endpoints"
 )
+
+func UniqueIdGenerator() string {
+	return uuid.NewString()
+}
 
 func VaultStatusCheck() bool {
 

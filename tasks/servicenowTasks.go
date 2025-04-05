@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/rebelnato/goAIRA/authorizations"
+	"github.com/rebelnato/goAIRA/endpoints"
 	"github.com/rebelnato/goAIRA/isolatedfunctions"
 )
 
@@ -117,6 +118,14 @@ func CreateSNOWIncident(c *gin.Context) {
 		return
 	} // Making new http request which returns []byte response and error
 
+	// Insert request payload into db
+	requestId := isolatedfunctions.UniqueIdGenerator()
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateRequestEntry(requestId, req.ConsumerId, "SNOW", "POST", reqBody); err != nil {
+			log.Panic("Unable to insert data into requests table due to ", err)
+		}
+	}
+
 	if err := json.Unmarshal(body, &incidentDetails); err != nil {
 		log.Println("Response json unmarshal failed for CreateSNOWIncident")
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -126,6 +135,13 @@ func CreateSNOWIncident(c *gin.Context) {
 		return
 	}
 	// Parse JSON response
+
+	// Insert response into db
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateResponseEntry(requestId, body); err != nil {
+			log.Panic("Unable to insert data into responses table due to ", err)
+		}
+	}
 
 	result := incidentDetails[`result`]
 	incidentNum := result["number"]
@@ -177,6 +193,13 @@ func GetSNOWIncident(c *gin.Context) {
 		return
 	} // Making new http request which returns []byte response and error
 
+	// Insert request payload into db
+	requestId := isolatedfunctions.UniqueIdGenerator()
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateRequestEntry(requestId, req.ConsumerId, "SNOW", "GET", nil); err != nil {
+			log.Panic("Unable to insert data into requests table due to ", err)
+		}
+	}
 	if err := json.Unmarshal(body, &incidentDetails); err != nil {
 		log.Println("Response json unmarshal failed for GetSNOWIncident", err)
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -186,6 +209,13 @@ func GetSNOWIncident(c *gin.Context) {
 		return
 	}
 	// Parse JSON response
+
+	// Insert response into db
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateResponseEntry(requestId, body); err != nil {
+			log.Panic("Unable to insert data into responses table due to ", err)
+		}
+	}
 
 	c.JSON(http.StatusOK, incidentDetails)
 }
@@ -299,6 +329,14 @@ func UpdateSNOWIncident(c *gin.Context) {
 		return
 	} // Making new http request which returns []byte response and error
 
+	// Insert request payload into db
+	requestId := isolatedfunctions.UniqueIdGenerator()
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateRequestEntry(requestId, req.ConsumerId, "SNOW", "PATCH", reqBody); err != nil {
+			log.Panic("Unable to insert data into requests table due to ", err)
+		}
+	}
+
 	if err := json.Unmarshal(body, &incidentDetails); err != nil {
 		log.Println("Response json unmarshal failed for GetSNOWIncident", err)
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -308,6 +346,13 @@ func UpdateSNOWIncident(c *gin.Context) {
 		return
 	}
 	// Parse JSON response
+
+	// Insert response into db
+	if endpoints.ConfigData.DbToggle {
+		if err := isolatedfunctions.CreateResponseEntry(requestId, body); err != nil {
+			log.Panic("Unable to insert data into responses table due to ", err)
+		}
+	}
 
 	c.JSON(http.StatusOK, incidentDetails)
 }
