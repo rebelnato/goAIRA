@@ -19,6 +19,8 @@ services:
       - .env
     ports:
       - "8080:8080"  # Will be assigned 8090 as internal docker port and 8080 for localhost
+    volumes:
+      - ./config.yml:/config.yml  # mount local config.yaml into container
 
   vault:
     image: hashicorp/vault:latest
