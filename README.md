@@ -20,7 +20,7 @@
 <details>
     <summary><text style="font-size: 16px;">Setup using docker-compose file ( Quick setup )</text></summary>
 
-1. Create a file named "docker-compose.yml" and copy celow code in it .
+1. Create a file named "docker-compose.yml" and copy below code in it .
 
 ```yaml
 services:
@@ -83,14 +83,33 @@ volumes:
 ```
 2. Create `.env` file in parent directory .
 > i.e : If you are cloning repository inside `path/goAIRA` then location of `.env` file should be `path/goAIRA/.env` .
-3. Move inside the parent directory ex : `path/goAIRA` using terminal and run `docker-compose up -d --build` .
-4. Wait for the task to complete . Once completed use any API test tool to validate on exposed APIs or goto `http://localhost:8080/` in any browser of your choice ( preferrably chrome or ARC ) .
-5. If the `/health` endpoints returns vault status as true then we are ready for vault initialization .
-6. Run below command to modify ownership and permission for `/vault` folder .
+3. Create `config.yml` file in parent directory and store config data in structure as shown in below sample file .
+
+```yaml
+endpoints:
+  servicenow:  
+    base: "https://<your-instance-id>.service-now.com/"
+  vault:
+    addr1: "localhost:8300"
+    addr2: "vault:8200"
+  db_host:
+    host1: "localhost"
+    host2: "db"
+
+enableDb: true
+
+consumers:
+  - "Test1"
+  - "Test2"
+```
+4. Move inside the parent directory ex : `path/goAIRA` using terminal and run `docker-compose up -d --build` .
+5. Wait for the task to complete . Once completed use any API test tool to validate on exposed APIs or goto `http://localhost:8080/` in any browser of your choice ( preferrably chrome or ARC ) .
+6. If the `/health` endpoints returns vault status as true then we are ready for vault initialization .
+7. Run below command to modify ownership and permission for `/vault` folder .
 ```bash
 docker exec -it vault sh -c "chown -R 100:100 /vault && chmod -R 750 /vault"
 ```
-7. Run below command to initiate vault , which will return 5 unseal key and 1 token key . Store the keys safe as we will need the in next steps to unseal vault and login.
+8. Run below command to initiate vault , which will return 5 unseal key and 1 token key . Store the keys safe as we will need the in next steps to unseal vault and login.
 ```bash
 docker exec -it vault vault operator init
 
@@ -104,24 +123,24 @@ Unseal Key 5: <unseal_key_5>
 
 Initial Root Token: <Root key>
 ```
-8. Add the `Root key` in `.env` and rebuild the containers using below commands.
+9. Add the `Root key` in `.env` and rebuild the containers using below commands.
 ```bash
 docker-compose down
 docker-compose up -d --build
 ```
 ><b>Note :</b> Doing this will add `Root key` as environment variable of your docker container . Same will be utilized for authentication later.
-9. Once you have added `Root` key in .env file and rebuilt the container , run provided command to unseal vault.
+10. Once you have added `Root` key in .env file and rebuilt the container , run provided command to unseal vault.
 ```bash
 docker exec -it vault vault operator unseal <unseal_key_1>
 docker exec -it vault vault operator unseal <unseal_key_2>
 docker exec -it vault vault operator unseal <unseal_key_3>
 ```
-10. Goto `http://localhost:8300` and use root key capture while initiating vault to login.
-11. Create a new secret engine name `secret` .
+11. Goto `http://localhost:8300` and use root key capture while initiating vault to login.
+12. Create a new secret engine name `secret` .
 ![Create secret engine in vault](resources/vault_secret_creation.gif)
-12. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
+13. Create 2 new secrets `SNOW` and `SNOW_refresh` inside `secret` engine .
 ![Adding SNOW creds](<resources/Recording 2025-03-10 231451.gif>)
-13. Store below mentioned creds in associated secrets.
+14. Store below mentioned creds in associated secrets.
 `SNOW` :
 ```json
 {
@@ -131,6 +150,7 @@ docker exec -it vault vault operator unseal <unseal_key_3>
   "username": "<ServiceNow user name>"
 }
 ```
+><b>Steps to generate client_id :</b> Login as Admin > Click on `All` on navbar > Search `Application Registry` > Click on `New` > Select first option `Create an OAuth API endpoint for external clients` > Enter required details and save it to generate client_id and secret .
 
 `SNOW_refresh` :
 ```json

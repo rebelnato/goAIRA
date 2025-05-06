@@ -19,9 +19,6 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Copy the built binary from builder stage
 COPY --from=builder /build/goaira /goaira
 
-# Copy the config file correctly
-COPY --from=builder /build/config.yml /config.yml
-
 # Copy everything inside resouces folder to docker
 COPY --from=builder /build/resources/ /resources/
 
